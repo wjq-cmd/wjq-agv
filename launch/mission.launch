@@ -1,0 +1,14 @@
+<launch> 
+
+    
+    <include file="$(find mavros)/launch/px4.launch" />
+    
+    <include file="$(find livox_ros_driver2)/launch/msg_MID360.launch" />
+    
+    <node name='lidar_to_mavros' pkg="lidar_to_mavros" type="lidar_to_mavros" />
+    
+    <include file="$(find slam_navigation)/launch/test_location.launch" />
+    
+    <include file="$(find navigation)/launch/navigation.launch" />
+
+</launch>

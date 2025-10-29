@@ -1,0 +1,28 @@
+<launch>
+    <!-- Start ROS communication between the robot's computer and starrobot base -->
+    <node pkg="rosserial_python" name="rosserial_starrobot" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/starrobotbase" />
+        <param name="baud" value="115200" />
+        <param name="fix_pyserial_for_test" value="False" /> 
+    </node>
+
+    <param name="EnabledRgb" value="true" />   <!-- ✅ 新增参数 -->
+    <param name="servo1" value="false" />   <!-- ✅ 新增参数 -->
+    <param name="servo2" value="false" />   <!-- ✅ 新增参数 -->
+    <param name="servo3" value="false" />   <!-- ✅ 新增参数 -->
+    <param name="servo4" value="false" />   <!-- ✅ 新增参数 -->
+
+    <include file="$(find starrobot_bringup)/launch/robot_type.launch" />
+    <include file="$(find starrobot_description)/launch/include/description.launch.xml" />
+
+    <!-- IMU Relay and Filter -->
+    <include file="$(find starrobot_bringup)/launch/include/imu/imu.launch" />
+
+    <!-- Publish starrobot odometry -->
+    <rosparam command="load" file="$(find starrobot_bringup)/param/starrobot_base_odom.yaml" />
+    <include file="$(find starrobot_bringup)/launch/starrobot_base_node.launch" />
+
+    <!-- Publish static transform from base_footprint to base_link -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.06 0 0 0  /base_footprint /base_link_ugv"/>
+</launch>
+

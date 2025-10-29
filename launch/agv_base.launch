@@ -1,0 +1,11 @@
+<launch> 
+    <node pkg="tf" type="static_transform_publisher" name="tf_imu" args="0 0 0 0 0 0 base_footprint imu_link 20"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="ugv_to_base_link" args="0 0 0 0 0 0 base_footprint base_link 20"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="body_foot_to_base_footprintf" args="0 0 0 0 0 0 body_foot base_footprint 20"/>
+  
+    <include file="$(find starrobot_bringup)/launch/minimal.launch" />
+        
+</launch>
+
